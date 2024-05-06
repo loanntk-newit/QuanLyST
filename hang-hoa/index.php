@@ -291,7 +291,7 @@
 
                             <div class="col-12 mb-3">
                                 <label for="edit_MaHH" class="form-label">Mã HH</label>
-                                <input type="text" name="edit_MaHH" id="edit_MaHH" class="form-control" placeholder="MHH01" required>
+                                <input type="text" name="edit_MaHH" id="edit_MaHH" class="form-control" placeholder="MHH01" readonly>
                             </div>
 
                             <div class="col-12 mb-3">

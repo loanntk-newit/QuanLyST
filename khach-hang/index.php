@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Belajar Dasar CRUD dengan PHP dan MySQL">
-    <title>Nhóm Hàng | Quản Lý Siêu Thị</title>
+    <title>Khách Hàng | Quản Lý Siêu Thị</title>
 
     <!-- bootstrap cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -33,13 +33,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto ">
                     <li class="nav-item">
-                        <a class="nav-link active text-sm-start text-center" aria-current="page" href="/nhom-hang">Nhóm Hàng</a>
+                        <a class="nav-link text-sm-start text-center" href="/nhom-hang">Nhóm Hàng</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-sm-start text-center" href="/hang-hoa">Hàng Hóa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-sm-start text-center" href="/khach-hang">Khách Hàng</a>
+                        <a class="nav-link active text-sm-start text-center" aria-current="page" href="/khach-hang">Khách Hàng</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-sm-start text-center" href="/nha-cung-cap">Nhà Cung Cấp</a>
@@ -71,9 +71,9 @@
             <!-- <div class="card-header">
                 Latihan CRUD PHP & MySQL
             </div> -->
-            <!-- Nhóm Hàng data -->
+            <!-- Khách Hàng data -->
             <div class="card-body">
-                <h3 class="card-title">Nhóm Hàng</h3>
+                <h3 class="card-title">Khách Hàng</h3>
                 <!-- Hiển thị thông báo đã thêm thành công -->
                 <?php if (isset($_GET['status'])) : ?>
                     <?php
@@ -90,18 +90,36 @@
                     ?>
                 <?php endif; ?>
 
-
                 <form class="row g-3" action="create.php" method="POST">
 
 
-                    <div class="col-md-6">
-                        <label for="Mã Nhóm" class="form-label">Mã Nhóm</label>
-                        <input type="text" name="ma-nhom" class="form-control" placeholder="MN001" required>
+                    <div class="col-md-4">
+                        <label for="MaKH" class="form-label">Mã KH</label>
+                        <input type="text" name="MaKH" class="form-control" placeholder="MKH01" required>
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="Tên Nhóm" class="form-label">Tên Nhóm</label>
-                        <input type="text" name="ten-nhom" class=" form-control" placeholder="Mã Nhóm 001" required>
+                    <div class="col-md-8">
+                        <label for="TenKH" class="form-label">Tên Khách Hàng</label>
+                        <input type="text" name="TenKH" class="form-control" placeholder="Tên Khách Hàng" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="GioiTinh" class="form-label">Giới Tính</label>
+                        <div class="col-md-12" id="gender">
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label" for="GioiTinh">
+                                    <input class="form-check-input" type="radio" name="GioiTinh" value="0">Nam</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label" for="GioiTinh">
+                                    <input class="form-check-input" type="radio" name="GioiTinh" value="1">Nữ</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <label for="STKKH" class="form-label">Số Tài Khoản</label>
+                        <input type="text" name="STKKH" class="form-control" placeholder="0123456789" required>
                     </div>
 
                     <div class="col-12">
@@ -152,8 +170,10 @@
             echo "<thead>";
             echo "<tr>";
             echo "<th scope='col' class='text-center'>STT</th>";
-            echo "<th scope='col'>Mã Nhóm</th>";
-            echo "<th scope='col'>Tên Nhóm</th>";
+            echo "<th scope='col'>Mã KH</th>";
+            echo "<th scope='col'>Tên Khách Hàng</th>";
+            echo "<th scope='col'>Giới Tính</th>";
+            echo "<th scope='col'>Số Tài Khoản</th>";
             echo "<th scope='col' class='text-center'></th>";
             echo "</tr>";
             echo "</thead>";
@@ -168,21 +188,23 @@
             $previous = $list - 1;
             $next = $list + 1;
 
-            $data = mysqli_query($db, "SELECT * FROM NHOMHANG");
+            $data = mysqli_query($db, "SELECT * FROM KHACHHANG");
             $amount_data = mysqli_num_rows($data);
             $total_pages = ceil($amount_data / $per_page);
 
-            $data_mhs = mysqli_query($db, "SELECT * FROM NHOMHANG LIMIT $page, $per_page");
+            $data_mhs = mysqli_query($db, "SELECT * FROM KHACHHANG LIMIT $page, $per_page");
             $no = $page + 1;
 
 
 
             while ($data = mysqli_fetch_array($data_mhs)) {
                 echo "<tr>";
-                echo "<td style='display:none'>" . $data['MaNhom'] . "</td>";
+                echo "<td style='display:none'>" . $data['MaKH'] . "</td>";
                 echo "<td class='text-center'>" . $no++ . "</td>";
-                echo "<td>" . $data['MaNhom'] . "</td>";
-                echo "<td>" . $data['TenNhom'] . "</td>";
+                echo "<td>" . $data['MaKH'] . "</td>";
+                echo "<td>" . $data['TenKH'] . "</td>";
+                echo "<td>" . ($data['GioiTinh'] == 0 ? 'Nam' : 'Nữ') . "</td>";
+                echo "<td>" . $data['STKKH'] . "</td>";
 
                 echo "<td class='text-center'>";
 
@@ -237,9 +259,11 @@
                     </div>
 
                     <?php
-                    $sql = "SELECT * FROM NHOMHANG";
+                    $sql = "SELECT * FROM KHACHHANG";
                     $query = mysqli_query($db, $sql);
                     $data = mysqli_fetch_array($query);
+
+                    $nhomHang = mysqli_query($db, "SELECT * FROM `NHOMHANG`");
                     ?>
 
                     <form action='edit.php' method='POST'>
@@ -247,18 +271,33 @@
                             <input type='hidden' name='edit_id' id='edit_id'>
 
                             <div class="col-12 mb-3">
-                                <label for="edit_ma_nhom" class="form-label">Mã Nhóm</label>
-                                <input type="text" name="edit_ma_nhom" id="edit_ma_nhom" class="form-control" placeholder="MN001" readonly>
+                                <label for="edit_MaKH" class="form-label">Mã KH</label>
+                                <input type="text" name="edit_MaKH" id="edit_MaKH" class="form-control" placeholder="MKH01" readonly>
                             </div>
-
-
 
                             <div class="col-12 mb-3">
-                                <label for="edit_ten_nhom" class="form-label">Tên Nhóm</label>
-                                <input type="text" name="edit_ten_nhom" class="form-control" id="edit_ten_nhom" placeholder="Tên Nhóm 001" required>
+                                <label for="edit_TenKH" class="form-label">Tên Khách Hàng</label>
+                                <input type="text" name="edit_TenKH" id="edit_TenKH" class="form-control" placeholder="Tên Khách Hàng" required>
                             </div>
 
+                            <div class="col-12 mb-3">
+                                <label for="edit_GioiTinh" class="form-label">Giới Tính</label>
+                                <div class="col-md-12" id="gender">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label" for="edit_GioiTinh">
+                                            <input class="form-check-input" type="radio" name="edit_GioiTinh" value="0" id="nam">Nam</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label" for="edit_GioiTinh">
+                                            <input class="form-check-input" type="radio" name="edit_GioiTinh" value="1" id="nu">Nữ</label>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="col-12 mb-3">
+                                <label for="edit_STKKH" class="form-label">Số Tài Khoản</label>
+                                <input type="text" name="edit_STKKH" id="edit_STKKH" class="form-control" placeholder="0123456789" required>
+                            </div>
                         </div>
 
                         <div class='modal-footer'>
@@ -328,8 +367,15 @@
                 }).get();
 
                 console.log(data);
-                $('#edit_ma_nhom').val(data[0]);
-                $('#edit_ten_nhom').val(data[3]);
+                $('#edit_MaKH').val(data[2]);
+                $('#edit_TenKH').val(data[3]);
+                if (data[4] == "Nam") {
+                    $("#nam").prop("checked", true);
+                } else {
+                    console.log('nữ')
+                    $("#nu").prop("checked", true);
+                }
+                $('#edit_STKKH').val(data[5]);
             });
         });
     </script>
