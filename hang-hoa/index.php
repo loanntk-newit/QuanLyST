@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Belajar Dasar CRUD dengan PHP dan MySQL">
-    <title>Nhóm Hàng | Quản Lý Siêu Thị</title>
+    <title>Hàng Hóa | Quản Lý Siêu Thị</title>
 
     <!-- bootstrap cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -33,10 +33,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto ">
                     <li class="nav-item">
-                        <a class="nav-link active text-sm-start text-center" aria-current="page" href="/nhom-hang">Nhóm Hàng</a>
+                        <a class="nav-link text-sm-start text-center" href="/nhom-hang">Nhóm Hàng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-sm-start text-center" href="/hang-hoa">Hàng Hóa</a>
+                        <a class="nav-link active text-sm-start text-center" aria-current="page" href="/hang-hoa">Hàng Hóa</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-sm-start text-center" href="/khach-hang">Khách Hàng</a>
@@ -71,9 +71,9 @@
             <!-- <div class="card-header">
                 Latihan CRUD PHP & MySQL
             </div> -->
-            <!-- Nhóm Hàng data -->
+            <!-- Hàng Hóa data -->
             <div class="card-body">
-                <h3 class="card-title">Nhóm Hàng</h3>
+                <h3 class="card-title">Hàng Hóa</h3>
                 <!-- Hiển thị thông báo đã thêm thành công -->
                 <?php if (isset($_GET['status'])) : ?>
                     <?php
@@ -90,19 +90,52 @@
                     ?>
                 <?php endif; ?>
 
+                <?php
+                $nhomHang = mysqli_query($db, "SELECT * FROM `NHOMHANG`");
+                ?>
+
 
                 <form class="row g-3" action="create.php" method="POST">
 
 
-                    <div class="col-md-6">
-                        <label for="Mã Nhóm" class="form-label">Mã Nhóm</label>
-                        <input type="text" name="ma-nhom" class="form-control" placeholder="MN001" required>
+                    <div class="col-md-4">
+                        <label for="MaHH" class="form-label">Mã HH</label>
+                        <input type="text" name="MaHH" class="form-control" placeholder="MHH01" required>
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="Tên Nhóm" class="form-label">Tên Nhóm</label>
-                        <input type="text" name="ten-nhom" class=" form-control" placeholder="Mã Nhóm 001" required>
+                    <div class="col-md-4">
+                        <label for="MaNhom" class="form-label">Mã Nhóm</label>
+                        <select class="form-select" name="MaNhom" aria-label="Default select example">
+                            <?php
+                            while ($item = mysqli_fetch_array($nhomHang)) {
+                                echo $item;
+                                echo "<option value='" . $item['MaNhom'] . "'>" . $item['TenNhom'] . "</option>";
+                            }
+                            ?>
+                        </select>
                     </div>
+
+                    <div class="col-md-4">
+                        <label for="TenHangHoa" class="form-label">Tên Hàng Hóa</label>
+                        <input type="text" name="TenHangHoa" class="form-control" placeholder="Tên Hàng Hóa" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="TrongLuong" class="form-label">Trọng Lượng</label>
+                        <input type="number" step=0.01 name="TrongLuong" class="form-control" placeholder="1.5" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="DonViTinh" class="form-label">Đơn Vị Tính</label>
+                        <input type="text" name="DonViTinh" class="form-control" placeholder="kg" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="HanSuDung" class="form-label">Hạn Sử Dụng</label>
+                        <input type="date" name="HanSuDung" class="form-control" required>
+                    </div>
+
+
 
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary" value="create" name="create"><i class="fa fa-plus"></i><span class="ms-2">Tạo mới</span></button>
@@ -152,8 +185,12 @@
             echo "<thead>";
             echo "<tr>";
             echo "<th scope='col' class='text-center'>STT</th>";
+            echo "<th scope='col'>Mã HH</th>";
             echo "<th scope='col'>Mã Nhóm</th>";
-            echo "<th scope='col'>Tên Nhóm</th>";
+            echo "<th scope='col'>Tên Hàng Hóa</th>";
+            echo "<th scope='col'>Trọng Lượng</th>";
+            echo "<th scope='col'>Đơn Vị Tính</th>";
+            echo "<th scope='col'>Hạn Sử Dụng</th>";
             echo "<th scope='col' class='text-center'></th>";
             echo "</tr>";
             echo "</thead>";
@@ -168,21 +205,25 @@
             $previous = $list - 1;
             $next = $list + 1;
 
-            $data = mysqli_query($db, "SELECT * FROM NHOMHANG");
+            $data = mysqli_query($db, "SELECT * FROM HANGHOA");
             $amount_data = mysqli_num_rows($data);
             $total_pages = ceil($amount_data / $per_page);
 
-            $data_mhs = mysqli_query($db, "SELECT * FROM NHOMHANG LIMIT $page, $per_page");
+            $data_mhs = mysqli_query($db, "SELECT * FROM HANGHOA LIMIT $page, $per_page");
             $no = $page + 1;
 
 
 
             while ($data = mysqli_fetch_array($data_mhs)) {
                 echo "<tr>";
-                echo "<td style='display:none'>" . $data['MaNhom'] . "</td>";
+                echo "<td style='display:none'>" . $data['MaHH'] . "</td>";
                 echo "<td class='text-center'>" . $no++ . "</td>";
+                echo "<td>" . $data['MaHH'] . "</td>";
                 echo "<td>" . $data['MaNhom'] . "</td>";
-                echo "<td>" . $data['TenNhom'] . "</td>";
+                echo "<td>" . $data['TenHangHoa'] . "</td>";
+                echo "<td>" . $data['TrongLuong'] . "</td>";
+                echo "<td>" . $data['DonViTinh'] . "</td>";
+                echo "<td>" . $data['HanSuDung'] . "</td>";
 
                 echo "<td class='text-center'>";
 
@@ -237,9 +278,11 @@
                     </div>
 
                     <?php
-                    $sql = "SELECT * FROM NHOMHANG";
+                    $sql = "SELECT * FROM HANGHOA";
                     $query = mysqli_query($db, $sql);
                     $data = mysqli_fetch_array($query);
+
+                    $nhomHang = mysqli_query($db, "SELECT * FROM `NHOMHANG`");
                     ?>
 
                     <form action='edit.php' method='POST'>
@@ -247,18 +290,41 @@
                             <input type='hidden' name='edit_id' id='edit_id'>
 
                             <div class="col-12 mb-3">
-                                <label for="edit_ma_nhom" class="form-label">Mã Nhóm</label>
-                                <input type="text" name="edit_ma_nhom" id="edit_ma_nhom" class="form-control" placeholder="MN001" required>
+                                <label for="edit_MaHH" class="form-label">Mã HH</label>
+                                <input type="text" name="edit_MaHH" id="edit_MaHH" class="form-control" placeholder="MHH01" required>
                             </div>
-
-
 
                             <div class="col-12 mb-3">
-                                <label for="edit_ten_nhom" class="form-label">Tên Nhóm</label>
-                                <input type="text" name="edit_ten_nhom" class="form-control" id="edit_ten_nhom" placeholder="Tên Nhóm 001" required>
+                                <label for="edit_MaNhom" class="form-label">Mã Nhóm</label>
+                                <select class="form-select" name="edit_MaNhom" id="edit_MaNhom" aria-label="Default select example">
+                                    <?php
+                                    while ($item = mysqli_fetch_array($nhomHang)) {
+                                        echo $item;
+                                        echo "<option value='" . $item['MaNhom'] . "'>" . $item['TenNhom'] . "</option>";
+                                    }
+                                    ?>
+                                </select>
                             </div>
 
+                            <div class="col-12 mb-3">
+                                <label for="edit_TenHangHoa" class="form-label">Tên Hàng Hóa</label>
+                                <input type="text" name="edit_TenHangHoa" id="edit_TenHangHoa" class="form-control" placeholder="Tên Hàng Hóa" required>
+                            </div>
 
+                            <div class="col-12 mb-3">
+                                <label for="edit_TrongLuong" class="form-label">Trọng Lượng</label>
+                                <input type="number" step=0.01 name="edit_TrongLuong" id="edit_TrongLuong" class="form-control" placeholder="1.5" required>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="edit_DonViTinh" class="form-label">Đơn Vị Tính</label>
+                                <input type="text" name="edit_DonViTinh" id="edit_DonViTinh" class="form-control" placeholder="kg" required>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="edit_HanSuDung" class="form-label">Hạn Sử Dụng</label>
+                                <input type="date" name="edit_HanSuDung" id="edit_HanSuDung" class="form-control" required>
+                            </div>
                         </div>
 
                         <div class='modal-footer'>
@@ -328,8 +394,12 @@
                 }).get();
 
                 console.log(data);
-                $('#edit_ma_nhom').val(data[0]);
-                $('#edit_ten_nhom').val(data[3]);
+                $('#edit_MaHH').val(data[0]);
+                $('#edit_MaNhom').val(data[3]);
+                $('#edit_TenHangHoa').val(data[4]);
+                $('#edit_TrongLuong').val(data[5]);
+                $('#edit_DonViTinh').val(data[6]);
+                $('#edit_HanSuDung').val(data[7]);
             });
         });
     </script>
