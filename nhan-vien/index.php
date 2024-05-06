@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Belajar Dasar CRUD dengan PHP dan MySQL">
-    <title>Khách Hàng | Quản Lý Siêu Thị</title>
+    <title>Nhân Viên | Quản Lý Siêu Thị</title>
 
     <!-- bootstrap cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -39,13 +39,13 @@
                         <a class="nav-link text-sm-start text-center" href="/hang-hoa">Hàng Hóa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active text-sm-start text-center" aria-current="page" href="/khach-hang">Khách Hàng</a>
+                        <a class="nav-link text-sm-start text-center" href="/khach-hang">Nhân Viên</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-sm-start text-center" href="/nha-cung-cap">Nhà Cung Cấp</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-sm-start text-center" href="/nhan-vien">Nhân Viên</a>
+                        <a class="nav-link active text-sm-start text-center" aria-current="page" href="/nhan-vien">Nhân Viên</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-sm-start text-center" href="/phieu-nhap">Phiếu Nhập</a>
@@ -71,9 +71,9 @@
             <!-- <div class="card-header">
                 Latihan CRUD PHP & MySQL
             </div> -->
-            <!-- Khách Hàng data -->
+            <!-- Nhân Viên data -->
             <div class="card-body">
-                <h3 class="card-title">Khách Hàng</h3>
+                <h3 class="card-title">Nhân Viên</h3>
                 <!-- Hiển thị thông báo đã thêm thành công -->
                 <?php if (isset($_GET['status'])) : ?>
                     <?php
@@ -94,13 +94,13 @@
 
 
                     <div class="col-md-4">
-                        <label for="MaKH" class="form-label">Mã KH</label>
-                        <input type="text" name="MaKH" class="form-control" placeholder="MKH01" required>
+                        <label for="MaNV" class="form-label">Mã NV</label>
+                        <input type="text" name="MaNV" class="form-control" placeholder="MNV01" required>
                     </div>
 
                     <div class="col-md-8">
-                        <label for="TenKH" class="form-label">Tên Khách Hàng</label>
-                        <input type="text" name="TenKH" class="form-control" placeholder="Tên Khách Hàng" required>
+                        <label for="TenNV" class="form-label">Tên Nhân Viên</label>
+                        <input type="text" name="TenNV" class="form-control" placeholder="Tên Nhân Viên" required>
                     </div>
 
                     <div class="col-md-4">
@@ -117,9 +117,19 @@
                         </div>
                     </div>
 
-                    <div class="col-md-8">
-                        <label for="STKKH" class="form-label">Số Tài Khoản</label>
-                        <input type="text" name="STKKH" class="form-control" placeholder="0123456789" required>
+                    <div class="col-md-4">
+                        <label for="NgaySinh" class="form-label">Ngày Sinh</label>
+                        <input type="date" name="NgaySinh" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="SoDT" class="form-label">Số Điện Thoại</label>
+                        <input type="text" name="SoDT" class="form-control" placeholder="0123456789" required>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="DiaChi" class="form-label">Địa chỉ</label>
+                        <input type="text" name="DiaChi" class="form-control" placeholder="Địa Chỉ" required>
                     </div>
 
                     <div class="col-12">
@@ -170,10 +180,12 @@
             echo "<thead>";
             echo "<tr>";
             echo "<th scope='col' class='text-center'>STT</th>";
-            echo "<th scope='col'>Mã KH</th>";
-            echo "<th scope='col'>Tên Khách Hàng</th>";
+            echo "<th scope='col'>Mã NV</th>";
+            echo "<th scope='col'>Tên Nhân Viên</th>";
             echo "<th scope='col'>Giới Tính</th>";
-            echo "<th scope='col'>Số Tài Khoản</th>";
+            echo "<th scope='col'>Ngày Sinh</th>";
+            echo "<th scope='col'>Số Điện Thoại</th>";
+            echo "<th scope='col'>Địa Chỉ</th>";
             echo "<th scope='col' class='text-center'></th>";
             echo "</tr>";
             echo "</thead>";
@@ -188,23 +200,25 @@
             $previous = $list - 1;
             $next = $list + 1;
 
-            $data = mysqli_query($db, "SELECT * FROM KHACHHANG");
+            $data = mysqli_query($db, "SELECT * FROM NHANVIEN");
             $amount_data = mysqli_num_rows($data);
             $total_pages = ceil($amount_data / $per_page);
 
-            $data_mhs = mysqli_query($db, "SELECT * FROM KHACHHANG LIMIT $page, $per_page");
+            $data_mhs = mysqli_query($db, "SELECT * FROM NHANVIEN LIMIT $page, $per_page");
             $no = $page + 1;
 
 
 
             while ($data = mysqli_fetch_array($data_mhs)) {
                 echo "<tr>";
-                echo "<td style='display:none'>" . $data['MaKH'] . "</td>";
+                echo "<td style='display:none'>" . $data['MaNV'] . "</td>";
                 echo "<td class='text-center'>" . $no++ . "</td>";
-                echo "<td>" . $data['MaKH'] . "</td>";
-                echo "<td>" . $data['TenKH'] . "</td>";
+                echo "<td>" . $data['MaNV'] . "</td>";
+                echo "<td>" . $data['TenNV'] . "</td>";
                 echo "<td>" . ($data['GioiTinh'] == 0 ? 'Nam' : 'Nữ') . "</td>";
-                echo "<td>" . $data['STKKH'] . "</td>";
+                echo "<td>" . $data['NgaySinh'] . "</td>";
+                echo "<td>" . $data['SoDT'] . "</td>";
+                echo "<td>" . $data['DiaChi'] . "</td>";
 
                 echo "<td class='text-center'>";
 
@@ -259,7 +273,7 @@
                     </div>
 
                     <?php
-                    $sql = "SELECT * FROM KHACHHANG";
+                    $sql = "SELECT * FROM NHANVIEN";
                     $query = mysqli_query($db, $sql);
                     $data = mysqli_fetch_array($query);
                     ?>
@@ -269,13 +283,13 @@
                             <input type='hidden' name='edit_id' id='edit_id'>
 
                             <div class="col-12 mb-3">
-                                <label for="edit_MaKH" class="form-label">Mã KH</label>
-                                <input type="text" name="edit_MaKH" id="edit_MaKH" class="form-control" placeholder="MKH01" readonly>
+                                <label for="edit_MaNV" class="form-label">Mã NV</label>
+                                <input type="text" name="edit_MaNV" id="edit_MaNV" class="form-control" placeholder="MKH01" readonly>
                             </div>
 
                             <div class="col-12 mb-3">
-                                <label for="edit_TenKH" class="form-label">Tên Khách Hàng</label>
-                                <input type="text" name="edit_TenKH" id="edit_TenKH" class="form-control" placeholder="Tên Khách Hàng" required>
+                                <label for="edit_TenNV" class="form-label">Tên Nhân Viên</label>
+                                <input type="text" name="edit_TenNV" id="edit_TenNV" class="form-control" placeholder="Tên Nhân Viên" required>
                             </div>
 
                             <div class="col-12 mb-3">
@@ -293,9 +307,20 @@
                             </div>
 
                             <div class="col-12 mb-3">
-                                <label for="edit_STKKH" class="form-label">Số Tài Khoản</label>
-                                <input type="text" name="edit_STKKH" id="edit_STKKH" class="form-control" placeholder="0123456789" required>
+                                <label for="edit_NgaySinh" class="form-label">Ngày Sinh</label>
+                                <input type="date" name="edit_NgaySinh" id="edit_NgaySinh" class="form-control" required>
                             </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="edit_SoDT" class="form-label">Số Điện Thoại</label>
+                                <input type="text" name="edit_SoDT" id="edit_SoDT" class="form-control" placeholder="0123456789" required>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="edit_DiaChi" class="form-label">Địa Chỉ</label>
+                                <input type="text" name="edit_DiaChi" id="edit_DiaChi" class="form-control" placeholder="Địa Chỉ" required>
+                            </div>
+                            
                         </div>
 
                         <div class='modal-footer'>
@@ -365,15 +390,17 @@
                 }).get();
 
                 console.log(data);
-                $('#edit_MaKH').val(data[2]);
-                $('#edit_TenKH').val(data[3]);
+                $('#edit_MaNV').val(data[2]);
+                $('#edit_TenNV').val(data[3]);
                 if (data[4] == "Nam") {
                     $("#nam").prop("checked", true);
                 } else {
                     console.log('nữ')
                     $("#nu").prop("checked", true);
                 }
-                $('#edit_STKKH').val(data[5]);
+                $('#edit_NgaySinh').val(data[5]);
+                $('#edit_SoDT').val(data[6]);
+                $('#edit_DiaChi').val(data[7]);
             });
         });
     </script>

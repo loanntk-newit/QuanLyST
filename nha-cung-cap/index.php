@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Belajar Dasar CRUD dengan PHP dan MySQL">
-    <title>Khách Hàng | Quản Lý Siêu Thị</title>
+    <title>Nhà Cung Cấp | Quản Lý Siêu Thị</title>
 
     <!-- bootstrap cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -39,10 +39,10 @@
                         <a class="nav-link text-sm-start text-center" href="/hang-hoa">Hàng Hóa</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active text-sm-start text-center" aria-current="page" href="/khach-hang">Khách Hàng</a>
+                        <a class="nav-link text-sm-start text-center" href="/khach-hang">Khách Hàng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-sm-start text-center" href="/nha-cung-cap">Nhà Cung Cấp</a>
+                        <a class="nav-link active text-sm-start text-center" aria-current="page" href="/nha-cung-cap">Nhà Cung Cấp</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-sm-start text-center" href="/nhan-vien">Nhân Viên</a>
@@ -71,9 +71,9 @@
             <!-- <div class="card-header">
                 Latihan CRUD PHP & MySQL
             </div> -->
-            <!-- Khách Hàng data -->
+            <!-- Nhà Cung Cấp data -->
             <div class="card-body">
-                <h3 class="card-title">Khách Hàng</h3>
+                <h3 class="card-title">Nhà Cung Cấp</h3>
                 <!-- Hiển thị thông báo đã thêm thành công -->
                 <?php if (isset($_GET['status'])) : ?>
                     <?php
@@ -93,33 +93,29 @@
                 <form class="row g-3" action="create.php" method="POST">
 
 
-                    <div class="col-md-4">
-                        <label for="MaKH" class="form-label">Mã KH</label>
-                        <input type="text" name="MaKH" class="form-control" placeholder="MKH01" required>
+                    <div class="col-md-6">
+                        <label for="MaNCC" class="form-label">Mã Nhà Cung Cấp</label>
+                        <input type="text" name="MaNCC" class="form-control" placeholder="MNCC1" required>
                     </div>
 
-                    <div class="col-md-8">
-                        <label for="TenKH" class="form-label">Tên Khách Hàng</label>
-                        <input type="text" name="TenKH" class="form-control" placeholder="Tên Khách Hàng" required>
+                    <div class="col-md-6">
+                        <label for="TenNCC" class="form-label">Tên Nhà Cung Cấp</label>
+                        <input type="text" name="TenNCC" class="form-control" placeholder="Tên Nhà Cung Cấp" required>
                     </div>
 
-                    <div class="col-md-4">
-                        <label for="GioiTinh" class="form-label">Giới Tính</label>
-                        <div class="col-md-12" id="gender">
-                            <div class="form-check form-check-inline">
-                                <label class="form-check-label" for="GioiTinh">
-                                    <input class="form-check-input" type="radio" name="GioiTinh" value="0">Nam</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <label class="form-check-label" for="GioiTinh">
-                                    <input class="form-check-input" type="radio" name="GioiTinh" value="1">Nữ</label>
-                            </div>
-                        </div>
+                    <div class="col-md-6">
+                        <label for="SoDTNCC" class="form-label">Số Điện Thoại</label>
+                        <input type="text" name="SoDTNCC" class="form-control" placeholder="0123456789" required>
                     </div>
 
-                    <div class="col-md-8">
-                        <label for="STKKH" class="form-label">Số Tài Khoản</label>
-                        <input type="text" name="STKKH" class="form-control" placeholder="0123456789" required>
+                    <div class="col-md-6">
+                        <label for="SoTKNCC" class="form-label">Số Tài Khoản</label>
+                        <input type="text" name="SoTKNCC" class="form-control" placeholder="0123456789" required>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="DiaChiNCC" class="form-label">Địa Chỉ</label>
+                        <input type="text" name="DiaChiNCC" class="form-control" placeholder="Địa Chỉ" required>
                     </div>
 
                     <div class="col-12">
@@ -170,10 +166,11 @@
             echo "<thead>";
             echo "<tr>";
             echo "<th scope='col' class='text-center'>STT</th>";
-            echo "<th scope='col'>Mã KH</th>";
-            echo "<th scope='col'>Tên Khách Hàng</th>";
-            echo "<th scope='col'>Giới Tính</th>";
+            echo "<th scope='col'>Mã NCC</th>";
+            echo "<th scope='col'>Tên Nhà Cung Cấp</th>";
+            echo "<th scope='col'>Số Điện Thoại</th>";
             echo "<th scope='col'>Số Tài Khoản</th>";
+            echo "<th scope='col'>Số Địa Chỉ</th>";
             echo "<th scope='col' class='text-center'></th>";
             echo "</tr>";
             echo "</thead>";
@@ -188,23 +185,24 @@
             $previous = $list - 1;
             $next = $list + 1;
 
-            $data = mysqli_query($db, "SELECT * FROM KHACHHANG");
+            $data = mysqli_query($db, "SELECT * FROM NHACUNGCAP");
             $amount_data = mysqli_num_rows($data);
             $total_pages = ceil($amount_data / $per_page);
 
-            $data_mhs = mysqli_query($db, "SELECT * FROM KHACHHANG LIMIT $page, $per_page");
+            $data_mhs = mysqli_query($db, "SELECT * FROM NHACUNGCAP LIMIT $page, $per_page");
             $no = $page + 1;
 
 
 
             while ($data = mysqli_fetch_array($data_mhs)) {
                 echo "<tr>";
-                echo "<td style='display:none'>" . $data['MaKH'] . "</td>";
+                echo "<td style='display:none'>" . $data['MaNCC'] . "</td>";
                 echo "<td class='text-center'>" . $no++ . "</td>";
-                echo "<td>" . $data['MaKH'] . "</td>";
-                echo "<td>" . $data['TenKH'] . "</td>";
-                echo "<td>" . ($data['GioiTinh'] == 0 ? 'Nam' : 'Nữ') . "</td>";
-                echo "<td>" . $data['STKKH'] . "</td>";
+                echo "<td>" . $data['MaNCC'] . "</td>";
+                echo "<td>" . $data['TenNCC'] . "</td>";
+                echo "<td>" . $data['SoDTNCC'] . "</td>";
+                echo "<td>" . $data['SoTKNCC'] . "</td>";
+                echo "<td>" . $data['DiaChiNCC'] . "</td>";
 
                 echo "<td class='text-center'>";
 
@@ -259,9 +257,11 @@
                     </div>
 
                     <?php
-                    $sql = "SELECT * FROM KHACHHANG";
+                    $sql = "SELECT * FROM NHACUNGCAP";
                     $query = mysqli_query($db, $sql);
                     $data = mysqli_fetch_array($query);
+
+                    $nhomHang = mysqli_query($db, "SELECT * FROM `NHOMHANG`");
                     ?>
 
                     <form action='edit.php' method='POST'>
@@ -269,32 +269,28 @@
                             <input type='hidden' name='edit_id' id='edit_id'>
 
                             <div class="col-12 mb-3">
-                                <label for="edit_MaKH" class="form-label">Mã KH</label>
-                                <input type="text" name="edit_MaKH" id="edit_MaKH" class="form-control" placeholder="MKH01" readonly>
+                                <label for="edit_MaNCC" class="form-label">Mã Nhà Cung Cấp</label>
+                                <input type="text" name="edit_MaNCC" id="edit_MaNCC" class="form-control" placeholder="MNCC1" readonly>
                             </div>
 
                             <div class="col-12 mb-3">
-                                <label for="edit_TenKH" class="form-label">Tên Khách Hàng</label>
-                                <input type="text" name="edit_TenKH" id="edit_TenKH" class="form-control" placeholder="Tên Khách Hàng" required>
+                                <label for="edit_TenNCC" class="form-label">Tên Nhà Cung Cấp</label>
+                                <input type="text" name="edit_TenNCC" id="edit_TenNCC" class="form-control" placeholder="Tên Nhà Cung Cấp" required>
                             </div>
 
                             <div class="col-12 mb-3">
-                                <label for="edit_GioiTinh" class="form-label">Giới Tính</label>
-                                <div class="col-md-12" id="gender">
-                                    <div class="form-check form-check-inline">
-                                        <label class="form-check-label" for="edit_GioiTinh">
-                                            <input class="form-check-input" type="radio" name="edit_GioiTinh" value="0" id="nam">Nam</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <label class="form-check-label" for="edit_GioiTinh">
-                                            <input class="form-check-input" type="radio" name="edit_GioiTinh" value="1" id="nu">Nữ</label>
-                                    </div>
-                                </div>
+                                <label for="edit_SoDTNCC" class="form-label">Số Điện Thoại</label>
+                                <input type="text" name="edit_SoDTNCC" id="edit_SoDTNCC" class="form-control" placeholder="0123456789" required>
                             </div>
 
                             <div class="col-12 mb-3">
-                                <label for="edit_STKKH" class="form-label">Số Tài Khoản</label>
-                                <input type="text" name="edit_STKKH" id="edit_STKKH" class="form-control" placeholder="0123456789" required>
+                                <label for="edit_SoTKNCC" class="form-label">Số Tài Khoản</label>
+                                <input type="text" name="edit_SoTKNCC" id="edit_SoTKNCC" class="form-control" placeholder="0123456789" required>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="edit_DiaChiNCC" class="form-label">Địa Chỉ</label>
+                                <input type="text" name="edit_DiaChiNCC" id="edit_DiaChiNCC" class="form-control" placeholder="Địa Chỉ" required>
                             </div>
                         </div>
 
@@ -365,15 +361,11 @@
                 }).get();
 
                 console.log(data);
-                $('#edit_MaKH').val(data[2]);
-                $('#edit_TenKH').val(data[3]);
-                if (data[4] == "Nam") {
-                    $("#nam").prop("checked", true);
-                } else {
-                    console.log('nữ')
-                    $("#nu").prop("checked", true);
-                }
-                $('#edit_STKKH').val(data[5]);
+                $('#edit_MaNCC').val(data[2]);
+                $('#edit_TenNCC').val(data[3]);
+                $('#edit_SoDTNCC').val(data[4]);
+                $('#edit_SoTKNCC').val(data[5]);
+                $('#edit_DiaChiNCC').val(data[6]);
             });
         });
     </script>
