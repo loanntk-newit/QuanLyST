@@ -18,16 +18,16 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `mahasiswa`
+-- Database: `QuanLyST`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mahasiswa`
+-- Table structure for table `QuanLyST`
 --
 
-CREATE TABLE `mahasiswa` (
+CREATE TABLE `QuanLyST` (
   `id` int(11) NOT NULL,
   `nama` varchar(100) NOT NULL,
   `NIM` varchar(12) NOT NULL,
@@ -38,10 +38,10 @@ CREATE TABLE `mahasiswa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `mahasiswa`
+-- Dumping data for table `QuanLyST`
 --
 
-INSERT INTO `mahasiswa` (`id`, `nama`, `NIM`, `jenis_kelamin`, `jurusan`, `agama`, `IPK`) VALUES
+INSERT INTO `QuanLyST` (`id`, `nama`, `NIM`, `jenis_kelamin`, `jurusan`, `agama`, `IPK`) VALUES
 (1, 'John Smith', '123', 'Laki-Laki', 'Ilmu Komputer', 'Hindu', 3.9);
 
 --
@@ -49,9 +49,9 @@ INSERT INTO `mahasiswa` (`id`, `nama`, `NIM`, `jenis_kelamin`, `jurusan`, `agama
 --
 
 --
--- Indexes for table `mahasiswa`
+-- Indexes for table `QuanLyST`
 --
-ALTER TABLE `mahasiswa`
+ALTER TABLE `QuanLyST`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `NIM_unique` (`NIM`);
 
@@ -60,9 +60,9 @@ ALTER TABLE `mahasiswa`
 --
 
 --
--- AUTO_INCREMENT for table `mahasiswa`
+-- AUTO_INCREMENT for table `QuanLyST`
 --
-ALTER TABLE `mahasiswa`
+ALTER TABLE `QuanLyST`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
